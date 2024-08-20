@@ -2,55 +2,39 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"os/exec"
-	"runtime"
 	"strings"
 )
 
-func clearScreen() {
-	switch runtime.GOOS {
-	case "linux", "darwin":
-		cmd := exec.Command("clear") // Linux and macOS
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	case "windows":
-		cmd := exec.Command("cmd", "/c", "cls") // Windows
-		cmd.Stdout = os.Stdout
-		cmd.Run()
-	default:
-		fmt.Print("\033[H\033[2J") // ANSI escape codes for other platforms
-	}
-}
+type Map [150][50]string
 
-func printMap() {
-	printStatus()
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Print(strings.Repeat(" ", 50), strings.Repeat("-", 50), strings.Repeat(" ", 50), "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), "|", strings.Repeat(".", 48), "|", "\n")
-	fmt.Print(strings.Repeat(" ", 50), strings.Repeat("-", 50), strings.Repeat(" ", 50), "\n")
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
-	fmt.Println(strings.Repeat(" ", 150))
+func printMap(game *game) {
+	printStatus(game.status)
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 40) + strings.Repeat("-", 50) + strings.Repeat(" ", 50))
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
+	printLine(strings.Repeat(" ", 40) + strings.Repeat("-", 50) + strings.Repeat(" ", 50))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
+	printLine(strings.Repeat(" ", 140))
 	printStats()
-	fmt.Println()
+	printLine("")
 }
 
-func printStatus() {
-	fmt.Println("4 pieces of gold")
+func printStatus(s string) {
+	printLine(s)
 }
 
 func printStats() {
@@ -58,4 +42,5 @@ func printStats() {
 	fmt.Printf("HP: %v(%v)\t  ", 10, 20)
 	fmt.Printf("Str: %v\t  ", 10)
 	fmt.Printf("Exp: %v\t  ", 15)
+	printLine("")
 }
