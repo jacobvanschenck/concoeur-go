@@ -8,7 +8,9 @@ import (
 func startGame(game *game) {
 	for game.running {
 		clearScreen()
-		printMap(game)
+		game.initMap()
+		update(game)
+		printGame(game)
 
 		b := make([]byte, 1)
 		os.Stdin.Read(b)
@@ -51,5 +53,51 @@ func getCommands() map[byte]command {
 			description: "Gold",
 			callback:    callbackGold,
 		},
+		'y': {
+			name:        "y",
+			description: "Move north west",
+			callback:    callbackMoveNorthWest,
+		},
+		'k': {
+			name:        "k",
+			description: "Move north",
+			callback:    callbackMoveNorth,
+		},
+		'u': {
+			name:        "u",
+			description: "Move north east",
+			callback:    callbackMoveNorthEast,
+		},
+		'l': {
+			name:        "l",
+			description: "Move east",
+			callback:    callbackMoveEast,
+		},
+		'n': {
+			name:        "n",
+			description: "Move south east",
+			callback:    callbackMoveSouthEast,
+		},
+		'j': {
+			name:        "j",
+			description: "Move south",
+			callback:    callbackMoveSouth,
+		},
+		'b': {
+			name:        "b",
+			description: "Move south west",
+			callback:    callbackMoveSouthWest,
+		},
+		'h': {
+			name:        "h",
+			description: "Move west",
+			callback:    callbackMoveWest,
+		},
 	}
 }
+
+//  y k u
+//   \|/
+//  h-.-l
+//   /|\
+//  b j n
