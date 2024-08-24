@@ -1,11 +1,5 @@
 package main
 
-type Action struct {
-	perform     func(game *Game, actor *Actor) error
-	name        string
-	description string
-}
-
 type Position struct {
 	x int
 	y int
@@ -20,6 +14,12 @@ type Actor struct {
 	position Position
 	takeTurn func() Action
 	display  byte
+}
+
+type Action struct {
+	perform     func(game *Game, actor *Actor) error
+	name        string
+	description string
 }
 
 func getActions() map[byte]Action {

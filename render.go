@@ -4,32 +4,16 @@ import (
 	"fmt"
 )
 
-type Map [38][150]byte
+type Map [40][60]Tile
 
 func printGame(game *Game) {
 	printStatus(game.status)
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 40) + strings.Repeat("-", 50) + strings.Repeat(" ", 50))
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + "|" + strings.Repeat(".", 48) + "|")
-	// printLine(strings.Repeat(" ", 40) + strings.Repeat("-", 50) + strings.Repeat(" ", 50))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	// printLine(strings.Repeat(" ", 140))
-	for _, row := range game.gameMap {
-		printLine(string(row[:]))
+	for _, tiles := range game.gameMap {
+		var row string
+		for _, tile := range tiles {
+			row += string(tile.display) + " "
+		}
+		printLine(row)
 	}
 	printStats()
 	printLine("")
