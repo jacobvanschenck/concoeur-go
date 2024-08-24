@@ -37,11 +37,6 @@ func newGame() Game {
 				}
 
 				return action
-
-				// err := command.callback(game)
-				// if err != nil {
-				// 	fmt.Println(err)
-				// }
 			},
 		},
 	}
