@@ -6,8 +6,12 @@ func exitAction(game *Game, actor *Actor) error {
 }
 
 func moveAction(game *Game, actor *Actor, dir Direction) error {
-	actor.position.x += dir.x
-	actor.position.y += dir.y
+	newPosition := Position{x: actor.position.x + dir.x, y: actor.position.y + dir.y}
+	tile := game.gameMap[newPosition.x][newPosition.y]
+	if !tile.isSolid {
+		actor.position.x += dir.x
+		actor.position.y += dir.y
+	}
 	return nil
 }
 
