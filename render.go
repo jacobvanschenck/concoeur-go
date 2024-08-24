@@ -4,12 +4,7 @@ import (
 	"fmt"
 )
 
-type Map [50][150]byte
-
-func update(game *game) {
-	x, y := game.player.getPosition()
-	game.gameMap[x][y] = '@'
-}
+type Map [38][150]byte
 
 func printGame(game *game) {
 	printStatus(game.status)

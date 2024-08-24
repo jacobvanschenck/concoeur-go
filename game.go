@@ -1,103 +1,82 @@
 package main
 
 import (
-	"fmt"
 	"os"
 )
 
-func startGame(game *game) {
-	for game.running {
-		clearScreen()
-		game.initMap()
-		update(game)
-		printGame(game)
+type game struct {
+	gameMap Map
+	actors  []actor
+	running bool
+	status  string
+}
 
-		b := make([]byte, 1)
-		os.Stdin.Read(b)
+func newGame() game {
+	game := game{}
 
-		key := b[0]
+	game.initMap()
+	game.running = true
+	game.actors = []actor{
+		{
+			position: position{
+				x: 25,
+				y: 75,
+			},
+			display: '@',
+			takeTurn: func() Action {
+				b := make([]byte, 1)
+				os.Stdin.Read(b)
 
-		availableCommands := getCommands()
-		command, ok := availableCommands[key]
+				key := b[0]
 
-		if !ok {
-			game.status = "Invalid command"
-			continue
-		}
+				availableActions := getActions()
+				action, ok := availableActions[key]
 
-		err := command.callback(game)
-		if err != nil {
-			fmt.Println(err)
+				if !ok {
+					return Action{perform: invalidAction}
+				}
+
+				return action
+
+				// err := command.callback(game)
+				// if err != nil {
+				// 	fmt.Println(err)
+				// }
+			},
+		},
+	}
+	for _, actor := range game.actors {
+		game.gameMap[actor.position.x][actor.position.y] = actor.display
+	}
+	return game
+}
+
+func (game *game) initMap() {
+	var rows Map
+
+	for i := range rows {
+		for j := range rows[i] {
+			rows[i][j] = '.'
 		}
 	}
 
+	game.gameMap = rows
+}
+
+func startGame(game *game) {
 	clearScreen()
+	printGame(game)
+	for game.running {
+		game.initMap()
+		for i := range game.actors {
+			actor := &game.actors[i]
+			action := actor.takeTurn()
+			action.perform(game, actor)
+			game.gameMap[actor.position.x][actor.position.y] = actor.display
+		}
+		clearScreen()
+		printGame(game)
+	}
+
 	printLine("Thanks for playing")
 }
-
-type command struct {
-	name        string
-	description string
-	callback    func(*game) error
-}
-
-func getCommands() map[byte]command {
-	return map[byte]command{
-		'q': {
-			name:        "q",
-			description: "Quit the game",
-			callback:    callbackExit,
-		},
-		'g': {
-			name:        "g",
-			description: "Gold",
-			callback:    callbackGold,
-		},
-		'y': {
-			name:        "y",
-			description: "Move north west",
-			callback:    callbackMoveNorthWest,
-		},
-		'k': {
-			name:        "k",
-			description: "Move north",
-			callback:    callbackMoveNorth,
-		},
-		'u': {
-			name:        "u",
-			description: "Move north east",
-			callback:    callbackMoveNorthEast,
-		},
-		'l': {
-			name:        "l",
-			description: "Move east",
-			callback:    callbackMoveEast,
-		},
-		'n': {
-			name:        "n",
-			description: "Move south east",
-			callback:    callbackMoveSouthEast,
-		},
-		'j': {
-			name:        "j",
-			description: "Move south",
-			callback:    callbackMoveSouth,
-		},
-		'b': {
-			name:        "b",
-			description: "Move south west",
-			callback:    callbackMoveSouthWest,
-		},
-		'h': {
-			name:        "h",
-			description: "Move west",
-			callback:    callbackMoveWest,
-		},
-	}
-}
-
-//  y k u
-//   \|/
-//  h-.-l
-//   /|\
-//  b j n
