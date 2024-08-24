@@ -4,21 +4,21 @@ import (
 	"os"
 )
 
-type game struct {
+type Game struct {
 	gameMap Map
-	actors  []actor
+	actors  []Actor
 	running bool
 	status  string
 }
 
-func newGame() game {
-	game := game{}
+func newGame() Game {
+	game := Game{}
 
 	game.initMap()
 	game.running = true
-	game.actors = []actor{
+	game.actors = []Actor{
 		{
-			position: position{
+			position: Position{
 				x: 25,
 				y: 75,
 			},
@@ -51,7 +51,7 @@ func newGame() game {
 	return game
 }
 
-func (game *game) initMap() {
+func (game *Game) initMap() {
 	var rows Map
 
 	for i := range rows {
@@ -63,7 +63,7 @@ func (game *game) initMap() {
 	game.gameMap = rows
 }
 
-func startGame(game *game) {
+func startGame(game *Game) {
 	clearScreen()
 	printGame(game)
 	for game.running {

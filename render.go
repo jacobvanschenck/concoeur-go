@@ -6,7 +6,7 @@ import (
 
 type Map [38][150]byte
 
-func printGame(game *game) {
+func printGame(game *Game) {
 	printStatus(game.status)
 	// printLine(strings.Repeat(" ", 140))
 	// printLine(strings.Repeat(" ", 140))
