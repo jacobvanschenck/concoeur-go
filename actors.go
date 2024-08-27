@@ -1,19 +1,14 @@
 package main
 
-type Position struct {
-	x int
-	y int
+type Actor struct {
+	position Position
+	takeTurn func() Action
+	display  byte
 }
 
 type Direction struct {
 	x int
 	y int
-}
-
-type Actor struct {
-	position Position
-	takeTurn func() Action
-	display  byte
 }
 
 type Action struct {
