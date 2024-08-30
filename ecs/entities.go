@@ -1,17 +1,19 @@
 package ecs
 
+type typeId string
+
 type Component interface {
-	typeId() string
+	typeId() typeId
 }
 
 type Entities struct {
 	entityMap   []int32
-	bitMasks    map[string]int32
-	components  map[string][]Component
+	bitMasks    map[typeId]int32
+	components  map[typeId][]Component
 	insertIndex int
 }
 
-func (entities *Entities) registerComponent(typeId string) {
+func (entities *Entities) registerComponent(typeId typeId) {
 	entities.components[typeId] = []Component{}
 	entities.bitMasks[typeId] = 1 << len(entities.bitMasks)
 }
@@ -55,4 +57,8 @@ func (entities *Entities) withComponent(component Component) *Entities {
 	entities.entityMap[index] |= bitMask
 
 	return entities
+}
+
+func (entities *Entities) getBitmask(typeId typeId) int32 {
+	return entities.bitMasks[typeId]
 }
