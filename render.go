@@ -4,11 +4,9 @@ import (
 	"fmt"
 )
 
-type Map [40][60]Tile
-
 func printGame(game *Game) {
 	printStatus(game.status)
-	for _, tiles := range game.gameMap {
+	for _, tiles := range game.gameMap.tiles {
 		var row string
 		for _, tile := range tiles {
 			row += string(tile.display) + " "

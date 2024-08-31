@@ -8,7 +8,7 @@ type (
 type Query struct {
 	queryMap int32
 	entities *Entities
-	typeIds  []typeId
+	typeIds  []TypeId
 }
 
 func (query *Query) new(entities *Entities) Query {
@@ -18,7 +18,7 @@ func (query *Query) new(entities *Entities) Query {
 	}
 }
 
-func (query *Query) withComponent(typeId typeId) *Query {
+func (query *Query) withComponent(typeId TypeId) *Query {
 	bitMask := query.entities.getBitmask(typeId)
 	query.queryMap |= bitMask
 	query.typeIds = append(query.typeIds, typeId)

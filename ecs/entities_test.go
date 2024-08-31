@@ -10,7 +10,7 @@ type Health struct {
 
 const HealthTypeId = "healthTypeId"
 
-func (health Health) typeId() typeId {
+func (health Health) typeId() TypeId {
 	return HealthTypeId
 }
 
@@ -21,7 +21,7 @@ type TestPosition struct {
 
 const TestPositionTypeId = "testPositionTypeId"
 
-func (testPosition TestPosition) typeId() typeId {
+func (testPosition TestPosition) typeId() TypeId {
 	return TestPositionTypeId
 }
 
@@ -37,8 +37,8 @@ func (another AnotherComponent) typeId() string {
 
 func initEntities() Entities {
 	return Entities{
-		components:  make(map[typeId][]Component),
-		bitMasks:    make(map[typeId]int32),
+		components:  make(map[TypeId][]Component),
+		bitMasks:    make(map[TypeId]int32),
 		insertIndex: 0,
 		entityMap:   []int32{},
 	}

@@ -4,6 +4,8 @@ import (
 	"os"
 )
 
+// Map is going to be a resourece
+
 type Game struct {
 	gameMap Map
 	actors  []Actor
@@ -14,7 +16,7 @@ type Game struct {
 func newGame() Game {
 	game := Game{}
 
-	game.drawMap()
+	game.gameMap.generateMap()
 	game.running = true
 	game.actors = []Actor{
 		{
@@ -41,80 +43,21 @@ func newGame() Game {
 		},
 	}
 	for _, actor := range game.actors {
-		game.gameMap[actor.position.x][actor.position.y] = Tile{display: actor.display}
+		game.gameMap.tiles[actor.position.x][actor.position.y] = Tile{display: actor.display}
 	}
 	return game
-}
-
-func (game *Game) drawMap() {
-	var rows Map
-	rowIndex := 0
-
-	for _, row := range rows[:13] {
-		for j := range row {
-			rows[rowIndex][j] = Tile{display: ' '}
-		}
-		rowIndex++
-	}
-
-	for j := range rows[rowIndex] {
-		char := &rows[rowIndex][j]
-		if j <= 20 || j >= 40 {
-			char.display = ' '
-		} else {
-			char.display = '#'
-			char.isSolid = true
-		}
-	}
-	rowIndex++
-
-	for _, row := range rows[rowIndex : rowIndex+10] {
-		for j := range row {
-			char := &rows[rowIndex][j]
-			if j <= 20 || j >= 40 {
-				char.display = ' '
-			} else if j == 21 || j == 39 {
-				char.display = '#'
-				char.isSolid = true
-			} else {
-				char.display = '.'
-			}
-
-		}
-		rowIndex++
-	}
-
-	for j := range rows[rowIndex] {
-		char := &rows[rowIndex][j]
-		if j <= 20 || j >= 40 {
-			char.display = ' '
-		} else {
-			char.display = '#'
-			char.isSolid = true
-		}
-	}
-	rowIndex++
-
-	for i := range rows[rowIndex:] {
-		for j := range rows[i] {
-			rows[rowIndex][j] = Tile{display: ' '}
-		}
-		rowIndex++
-	}
-
-	game.gameMap = rows
 }
 
 func startGame(game *Game) {
 	clearScreen()
 	printGame(game)
 	for game.running {
-		game.drawMap()
+		game.gameMap.generateMap()
 		for i := range game.actors {
 			actor := &game.actors[i]
 			action := actor.takeTurn()
 			action.perform(game, actor)
-			game.gameMap[actor.position.x][actor.position.y] = Tile{display: actor.display}
+			game.gameMap.tiles[actor.position.x][actor.position.y] = Tile{display: actor.display}
 		}
 		clearScreen()
 		printGame(game)
